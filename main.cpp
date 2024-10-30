@@ -37,9 +37,13 @@ int main() {
   Room* englishClass = new Room();
   strcpy(temp, "You are in the english classroom");
   englishClass->setDescription(temp);
+  
   Room* cHall = new Room();
-
+  strcpy(temp, "You are in the c-hallway");
+  cHall->setDescription(temp);
+  
   Room* boringClassRoom = new Room();
+  
   Room* dHall = new Room();
   Room* mainOffice = new Room();
   Room* computerLab = new Room();
