@@ -15,7 +15,7 @@ void Room::setExit(char direction, Room* room) {
   exitMap[direction] = room;
 }
 
-void Room::setDescription(char newDescription[100]) {
+void Room::setDescription(char* newDescription) {
   description = newDescription;
 }
 

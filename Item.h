@@ -10,4 +10,4 @@ class Item {
  protected:
   char name[20];
   char description[100];
-}
+};
