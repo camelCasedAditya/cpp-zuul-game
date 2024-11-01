@@ -8,77 +8,77 @@ using namespace std;
 int main() {
   char temp[100] = "you are in the starting room";
   Room* start = new Room();
-  start->setDescription(temp);
+  start->setDescription(strdup(temp));
   
   Room* cppClass = new Room();
   strcpy(temp, "You are in Mr.Galbraith's c++ classroom");
-  cppClass->setDescription(temp);
+  cppClass->setDescription(strdup(temp));
 
   Room* courtYard = new Room();
   strcpy(temp, "You are in the beautiful courtyard");
-  courtYard->setDescription(temp);
+  courtYard->setDescription(strdup(temp));
   
   Room* oneHall = new Room();
   strcpy(temp, "You are in one hall");
-  oneHall->setDescription(temp);
+  oneHall->setDescription(strdup(temp));
   
   Room* library =  new Room();
   strcpy(temp, "You are in the library. Shhh");
-  library->setDescription(temp);
+  library->setDescription(strdup(temp));
   
   Room* aWing = new Room();
   strcpy(temp, "You are in a-wing");
-  aWing->setDescription(temp);
+  aWing->setDescription(strdup(temp));
   
   Room* aHall = new Room();
   strcpy(temp, "You are in the a-hallway");
-  aHall->setDescription(temp);
+  aHall->setDescription(strdup(temp));
   
   Room* englishClass = new Room();
   strcpy(temp, "You are in the english classroom");
-  englishClass->setDescription(temp);
+  englishClass->setDescription(strdup(temp));
   
   Room* cHall = new Room();
   strcpy(temp, "You are in the c-hallway");
-  cHall->setDescription(temp);
+  cHall->setDescription(strdup(temp));
   
   Room* boringClassRoom = new Room();
   strcpy(temp, "You are in a very boring classroom");
-  boringClassRoom->setDescription(temp);
+  boringClassRoom->setDescription(strdup(temp));
   
   Room* dHall = new Room();
   strcpy(temp, "You are in d hallway");
-  dHall->setDescription(temp);
+  dHall->setDescription(strdup(temp));
   
   Room* mainOffice = new Room();
   strcpy(temp, "You are in the school main office");
-  mainOffice->setDescription(temp);
+  mainOffice->setDescription(strdup(temp));
   
   Room* computerLab = new Room();
   strcpy(temp, "You are in the computer lab");
-  computerLab->setDescription(temp);
+  computerLab->setDescription(strdup(temp));
   
   Room* tWing = new Room();
   strcpy(temp, "You are in the t-building");
-  tWing->setDescription(temp);
+  tWing->setDescription(strdup(temp));
   
   Room* artRoom = new Room();
   strcpy(temp, "You are in the art room");
-  artRoom->setDescription(temp);
+  artRoom->setDescription(strdup(temp));
   
   Room* gym = new Room();
   strcpy(temp, "You are in the gym");
-  gym->setDescription(temp);
+  gym->setDescription(strdup(temp));
   
   Room* spanishClass = new Room();
   strcpy(temp, "You are in the spanish classroom");
-  spanishClass->setDescription(temp);
+  spanishClass->setDescription(strdup(temp));
 
 
   start->setExit('n', cppClass);
   start->setExit('s', oneHall);
-  start->setExit('e', courtYard);
-  start->setExit('w', tWing);
+  start->setExit('w', courtYard);
+  start->setExit('e', tWing);
 
   cppClass->setExit('n', spanishClass);
   cppClass->setExit('s', start);
@@ -129,8 +129,18 @@ int main() {
   bool hasItems = false;
   vector<Item*> inventory;
   Room* currentRoom;
+  currentRoom = start;
+  char input = 'a';
+  //char* point = input;
+  start->getDescription();
   while(hasItems == false) {
-    break;
+    cout << "Enter a direction \'n\' for north, \'s\' south, \'e\' for east, or \'w\' for west" << endl;
+    cin >> input;
+    if (input == 'q') {
+      hasItems == true;
+    }
+    currentRoom = currentRoom->getExit(input);
+    currentRoom->getDescription();
   }
   
   //unordered_map<char, int> umap;
@@ -139,12 +149,12 @@ int main() {
   //cout << umap.at('l') << endl;
   //cout << umap.at('u') << endl;
 
-  char input[100] = "Exit room description";
-  Room* room = new Room();
-  Room* room2 = new Room();
-  room2->setDescription(input);
-  room->setExit('u', room2);
-  Room* exitRoom = room->getExit('u');
-  exitRoom->getDescription();
+  //char input[100] = "Exit room description";
+  //Room* room = new Room();
+  //Room* room2 = new Room();
+  //room2->setDescription(input);
+  //room->setExit('u', room2);
+  //Room* exitRoom = room->getExit('u');
+  //exitRoom->getDescription();
   return 0;
 }
