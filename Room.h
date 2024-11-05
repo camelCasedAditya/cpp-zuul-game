@@ -2,23 +2,24 @@
 #include <cstring>
 #include <unordered_map>
 #include <vector>
-//#include "Item.h"
+#include "Item.h"
 using namespace std;
 
 class Room {
  public:
   Room();
   void setExit(char direction, Room* neighbor);
-  void setDescription(char newDescription[100]);
+  void setDescription(char* newDescription);
   void getDescription();
   void getExitDescription();
   Room* getExit(char direction);
-  //Item* getItem(char name[20]);
-  void RemoveItem(char name[20]);
+  Item* getItem(char name[20]);
+  void addItem(Item* item);
+  void removeItem(char name[20]);
   void setItem();
   
  protected:
   unordered_map<char, Room*> exitMap;
-  //vector<Item*> items;
+  vector<Item*> items;
   char* description;
 };

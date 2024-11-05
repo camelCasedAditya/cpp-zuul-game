@@ -9,6 +9,23 @@ int main() {
   char temp[100] = "you are in the starting room";
   Room* start = new Room();
   start->setDescription(strdup(temp));
+
+  Item* item = new Item();
+  char itemName[20] = "#1";
+  item->setName(strdup(itemName));
+  start->addItem(item);
+
+  Item* item2 = new Item();
+  char itemName2[20] = "#2";
+  item2->setName(strdup(itemName2));
+  start->addItem(item2);
+
+  char removeName[20] = "#1";
+  start->getDescription();
+  start->removeItem(removeName);
+  cout << "-------" << endl;
+  start->getDescription();
+
   
   Room* cppClass = new Room();
   strcpy(temp, "You are in Mr.Galbraith's c++ classroom");
