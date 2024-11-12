@@ -5,27 +5,35 @@
 #include "Item.h"
 using namespace std;
 
+void printInventory(vector<Item*> inventory);
+bool checkWin(vector<Item*> inventory);
+
 int main() {
+  char itemName[20] = "computer";
+
+  Item* computer = new Item();
+  computer->setName(strdup(itemName));
+
+  Item* book = new Item();
+  strcpy(itemName, "book");
+  book->setName(strdup(itemName));
+
+  Item* lunch = new Item();
+  strcpy(itemName, "lunch");
+  lunch->setName(strdup(itemName));
+
+  Item* marker = new Item();
+  strcpy(itemName, "marker");
+  marker->setName(strdup(itemName));
+
+  Item* basketball = new Item();
+  strcpy(itemName, "basketball");
+  basketball->setName(strdup(itemName));
+  
+  
   char temp[100] = "you are in the starting room";
   Room* start = new Room();
   start->setDescription(strdup(temp));
-
-  Item* item = new Item();
-  char itemName[20] = "#1";
-  item->setName(strdup(itemName));
-  start->addItem(item);
-
-  Item* item2 = new Item();
-  char itemName2[20] = "#2";
-  item2->setName(strdup(itemName2));
-  start->addItem(item2);
-
-  char removeName[20] = "#1";
-  start->getDescription();
-  start->removeItem(removeName);
-  cout << "-------" << endl;
-  start->getDescription();
-
   
   Room* cppClass = new Room();
   strcpy(temp, "You are in Mr.Galbraith's c++ classroom");
@@ -34,6 +42,8 @@ int main() {
   Room* courtYard = new Room();
   strcpy(temp, "You are in the beautiful courtyard");
   courtYard->setDescription(strdup(temp));
+  courtYard->addItem(lunch);
+
   
   Room* oneHall = new Room();
   strcpy(temp, "You are in one hall");
@@ -54,6 +64,7 @@ int main() {
   Room* englishClass = new Room();
   strcpy(temp, "You are in the english classroom");
   englishClass->setDescription(strdup(temp));
+  englishClass->addItem(book);
   
   Room* cHall = new Room();
   strcpy(temp, "You are in the c-hallway");
@@ -74,6 +85,7 @@ int main() {
   Room* computerLab = new Room();
   strcpy(temp, "You are in the computer lab");
   computerLab->setDescription(strdup(temp));
+  computerLab->addItem(computer);
   
   Room* tWing = new Room();
   strcpy(temp, "You are in the t-building");
@@ -82,10 +94,12 @@ int main() {
   Room* artRoom = new Room();
   strcpy(temp, "You are in the art room");
   artRoom->setDescription(strdup(temp));
+  artRoom->addItem(marker);
   
   Room* gym = new Room();
   strcpy(temp, "You are in the gym");
   gym->setDescription(strdup(temp));
+  gym->addItem(basketball);
   
   Room* spanishClass = new Room();
   strcpy(temp, "You are in the spanish classroom");
@@ -147,31 +161,76 @@ int main() {
   vector<Item*> inventory;
   Room* currentRoom;
   currentRoom = start;
-  char input = 'a';
-  //char* point = input;
-  start->getDescription();
+  char input[100];
   while(hasItems == false) {
-    cout << "Enter a direction \'n\' for north, \'s\' south, \'e\' for east, or \'w\' for west" << endl;
-    cin >> input;
-    if (input == 'q') {
-      hasItems == true;
-    }
-    currentRoom = currentRoom->getExit(input);
+    cout << "\n";
     currentRoom->getDescription();
+    currentRoom->getExitDescriptions();
+    cout << "\n";
+    cout << "What do you want to do? Go to another room: \'MOVE\' or pick/drop items: \'ITEMS\' or quit: \'QUIT\'" << endl;
+    cin >> input;
+    if (strcmp(input, "MOVE") == 0) {
+      cout << "Enter a direction \'n\' for north, \'s\' south, \'e\' for east, or \'w\' for west" << endl;
+      cin >> input;
+      currentRoom = currentRoom->getExit(input[0]);
+    }
+    else if (strcmp(input, "ITEMS") == 0) {
+      cout << "Do you want to pick up an item or drop an item? Enter \'PICK\' or \'DROP\'" << endl;
+      cin >> input;
+      if (strcmp(input, "PICK") == 0) {
+        cout << "Enter the name of the item you want to pick up" << endl;
+        cin >> input;
+	if (currentRoom->getItem(input) != NULL) {
+	  inventory.push_back(currentRoom->getItem(input));
+	  currentRoom->removeItem(input);
+	}
+	else {
+	  cout << "There is no item with this name" << endl;
+	}
+      }
+      if (strcmp(input, "DROP") == 0) {
+	cout << "Enter the name of the item you want to drop" << endl;
+	cin >> input;
+	for (int i = 0; i < inventory.size(); i++) {
+	  if (strcmp(inventory[i]->getName(), input) == 0) {
+	    currentRoom->addItem(inventory[i]);
+	    inventory.erase(inventory.begin() + i);
+	  }
+	}
+      }
+    }
+    else if (strcmp(input, "QUIT")) {
+      hasItems = true;
+    }
+    else {
+      hasItems = checkWin(inventory);
+    }
   }
   
-  //unordered_map<char, int> umap;
-  //umap['u'] = 10;
-  //umap['l'] = 20;
-  //cout << umap.at('l') << endl;
-  //cout << umap.at('u') << endl;
-
-  //char input[100] = "Exit room description";
-  //Room* room = new Room();
-  //Room* room2 = new Room();
-  //room2->setDescription(input);
-  //room->setExit('u', room2);
-  //Room* exitRoom = room->getExit('u');
-  //exitRoom->getDescription();
   return 0;
+}
+
+void printInventory(vector<Item*> inventory) {
+  cout << "These are the items in your inventory:" << endl;
+  for (int i = 0; i<inventory.size(); i++){
+    cout << inventory[i]->getName() << endl;
+  }
+}
+
+bool checkWin(vector<Item*> inventory) {
+  int itemCount = 0;
+  for (int i = 0; i<inventory.size(); i++) {
+    if ((strcmp(inventory[i]->getName(), "book") == 0) ||
+	(strcmp(inventory[i]->getName(), "marker") == 0) ||
+	(strcmp(inventory[i]->getName(), "basketball") == 0) ||
+	(strcmp(inventory[i]->getName(), "computer") == 0)) {
+      itemCount++;
+    }
+  }
+  if (itemCount == 4) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }

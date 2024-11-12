@@ -11,11 +11,12 @@ class Room {
   void setExit(char direction, Room* neighbor);
   void setDescription(char* newDescription);
   void getDescription();
-  void getExitDescription();
+  char* getShortDescription();
+  void getExitDescriptions();
   Room* getExit(char direction);
-  Item* getItem(char name[20]);
+  Item* getItem(char* name);
   void addItem(Item* item);
-  void removeItem(char name[20]);
+  void removeItem(char* name);
   void setItem();
   
  protected:
